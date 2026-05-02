@@ -5,3 +5,9 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility; // улучшает читаемость
 }
+
+// Ограничение минимально возможного экрана
+html, body, #app, .v-application {
+  min-width: 350px;
+  overflow-x: auto; // появляется прокрутка, если окно меньше
+}

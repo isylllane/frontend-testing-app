@@ -1,10 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import AuthLayout from '@/layouts/AuthLayout.vue'
 
 const routes = [
     {
-        path: '/',
-        name: 'Home',
-        component: () => import('@/views/Home.vue'),
+        path: '/auth',
+        component: AuthLayout,
+        children: [
+            {
+                path: 'login',
+                name: 'Login',
+                component: () => import('@/views/auth/Login.vue'),
+            },
+        ],
     },
 ]
 

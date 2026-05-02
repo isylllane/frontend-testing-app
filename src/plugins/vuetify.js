@@ -17,15 +17,24 @@ export default createVuetify({
         sets: { mdi },
     },
     theme: {
-        defaultTheme: 'light',
+        defaultTheme: 'dark',
         themes: {
             light: {
                 colors: {
                     primary: '#2196F3',
                     secondary: '#64B6F7',
                     accent: '#2162ff',
-                    error: '#FF0000', //todo Согласовать цвет #FF5252
-                    success: '#0FC015', //todo Согласовать цвет #4CAF50
+                    error: '#FF5252', //todo Согласовать цвет #FF0000
+                    success: '#4CAF50', //todo Согласовать цвет #0FC015
+                },
+            },
+            dark: {
+                colors: {
+                    primary: '#2196F3',
+                    secondary: '#64B6F7',
+                    accent: '#2162ff',
+                    error: '#FF0000',
+                    success: '#0FC015',
                 },
             },
         },
