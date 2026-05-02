@@ -4,6 +4,9 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
+import '../assets/styles/fonts.scss' // Локальные шрифты
+
+const interFontFamily = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
 
 export default createVuetify({
     components,
@@ -26,5 +29,14 @@ export default createVuetify({
                 },
             },
         },
+    }, defaults: {
+        // Глобальное применение шрифта ко всем компонентам
+        VTypography: {
+            style: `font-family: ${interFontFamily}`,
+        },
+    },
+    // Корневой шрифт приложения
+    display: {
+        fontFamily: interFontFamily,
     },
 })
