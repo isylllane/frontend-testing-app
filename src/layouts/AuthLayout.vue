@@ -1,15 +1,13 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="app-layout">
       <v-container fluid class="fill-height">
         <v-row class="d-flex justify-center align-center" style="height: 100vh;">
           <v-col cols="12" sm="8" md="8" lg="8" class="d-flex justify-center">
-            <v-card class="elevation-12 rounded-lg pa-4 " border="secondary thin" width="400">
+            <v-card class="elevation-12 rounded-lg pa-4" color="background" border="secondary thin" width="400">
               <v-card-text class="text-center pt-6">
                 <!-- Логотип -->
-                <div class="text-center mb-6">
-                  <h1 class="text-h3 font-weight-black text-primary">КОТ</h1>
-                </div>
+                <LogoHeader size="headline-small" class="mb-2"/>
                 <!-- Форма -->
                 <v-form ref="loginForm" v-model="isValid" @submit.prevent="handleLogin">
                   <v-text-field
@@ -73,6 +71,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import LogoHeader from "@/components/layout/LogoHeader.vue";
 
 const router = useRouter()
 const login = ref('')
@@ -104,5 +103,8 @@ const handleLogin = async () => {
 
 :deep(.v-field--focused .v-icon) {
   color: rgb(var(--v-theme-primary));
+}
+.app-layout  {
+  background-color: rgb(var(--v-theme-surface)) !important;
 }
 </style>

@@ -7,6 +7,7 @@ import '@/assets/styles/global.scss' // Глобальные стили
 
 const app = createApp(App)
 
+// Подкючение  pinia
 app.use(createPinia())
 // Файл конфигурации маршрутов
 app.use(router)

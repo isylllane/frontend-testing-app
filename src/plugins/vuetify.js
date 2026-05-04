@@ -6,7 +6,11 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
 import '../assets/styles/fonts.scss' // Локальные шрифты
 
+// Шрифты
 const interFontFamily = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+
+//  Получаем тему из localStorage
+const savedTheme = localStorage.getItem('app-theme') || 'light'
 
 export default createVuetify({
     components,
@@ -17,7 +21,7 @@ export default createVuetify({
         sets: { mdi },
     },
     theme: {
-        defaultTheme: 'dark',
+        defaultTheme: savedTheme,
         themes: {
             light: {
                 colors: {
@@ -26,6 +30,8 @@ export default createVuetify({
                     accent: '#2162ff',
                     error: '#FF5252', //todo Согласовать цвет #FF0000
                     success: '#4CAF50', //todo Согласовать цвет #0FC015
+                    background: '#FFFFFF',          // фон контента
+                    surface: '#F7F8FD',
                 },
             },
             dark: {
@@ -35,6 +41,8 @@ export default createVuetify({
                     accent: '#2162ff',
                     error: '#FF0000',
                     success: '#0FC015',
+                    background: '#1E1E2E',
+                    surface: '#1A1A2E',
                 },
             },
         },
@@ -42,6 +50,18 @@ export default createVuetify({
         // Глобальное применение шрифта ко всем компонентам
         VTypography: {
             style: `font-family: ${interFontFamily}`,
+        },
+        // Цвет пунктов меню
+        VNavigationDrawer: {
+            color: 'surface',
+        },
+        // Цвет шапки
+        VAppBar: {
+            color: 'surface',
+        },
+        // Цвет фона контента
+        VMain: {
+            style: 'background-color: rgb(var(--v-theme-background))',
         },
     },
     // Корневой шрифт приложения
