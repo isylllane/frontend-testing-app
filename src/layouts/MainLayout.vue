@@ -1,60 +1,47 @@
 <template>
   <v-app>
     <!-- Боковое меню -->
-    <v-navigation-drawer
-        width="258"
-        permanent
-
-    >
-      <!-- Логотип -->
-      <LogoHeader size="headline-small"/>
-      <v-divider />
-
-      <!-- Навигация -->
-      <v-list
-          density="compact"
-          nav
-          class="px-2"
-      >
-        <v-list-item
-            v-for="item in userStore.menuItems"
-            :key="item.to"
-            :title="item.title"
-            :prepend-icon="item.icon"
-            :to="item.to"
-            rounded="lg"
-            color="primary"
-            class="mb-1"
-        />
-      </v-list>
-      <!-- Кнопка переключения темы -->
-      <template v-slot:append>
-        <div class="px-4 pb-4">
-          <v-divider class="mb-4" />
-          <v-btn
-              variant="text"
-              block
-              :prepend-icon="theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-              @click="toggleTheme"
-          >
-            {{ theme.global.current.value.dark ? 'Светлая тема' : 'Тёмная тема' }}
-          </v-btn>
-        </div>
+    <AppSidebar>
+      <template #content>
+        <NavigationMenu />
       </template>
-    </v-navigation-drawer>
+      <template #footer>
+        <v-btn
+            variant="text"
+            block
+            :prepend-icon="theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+            @click="toggleTheme"
+        >
+          {{ theme.global.current.value.dark ? 'Светлая тема' : 'Тёмная тема' }}
+        </v-btn>
+      </template>
+    </AppSidebar>
 
     <!-- Шапка + контент -->
     <v-app-bar
         elevation="0"
     >
       <v-app-bar-title class="text-headline-small font-weight-semibold">
-        {{ route.meta.title || 'КОТ' }}
+        {{ appStore.pageTitle }}
       </v-app-bar-title>
 
       <v-spacer />
 
       <!-- Слот для кнопки действия -->
-      <slot name="action-button" />
+      <template v-slot:append>
+        <v-btn
+            v-if="appStore.headerAction"
+            color="primary"
+
+            variant="elevated"
+            min-width="220"
+            class="text-title-large font-weight-bold mr-4 py-4 rounded-lg"
+            @click="appStore.headerAction.onClick"
+        >
+          {{ appStore.headerAction.label }}
+        </v-btn>
+      </template>
+
     </v-app-bar>
     <!-- Основной контент -->
     <v-main>
@@ -69,31 +56,18 @@
 
 <script setup>
 // Импорт компонентов
-import LogoHeader from "@/components/layout/LogoHeader.vue";
+import NavigationMenu from '@/components/layout/NavigationMenu.vue'
+import AppSidebar from '@/components/layout/AppSidebar.vue'
 // Импорт функций
-import { useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
 import { useTheme } from 'vuetify'
 
-
-// Работа с маршрутами
-const route = useRoute()
-const userStore = useUserStore()
-
-// FIXME Временно для теста — позже уберём
-import { onMounted } from 'vue'
-onMounted(() => {
-  if (!userStore.isAuthenticated) {
-    userStore.login(
-        { id: 1, name: 'Иван', role: 'student' },
-        'fake-token'
-    )
-  }
-})
-
-const theme = useTheme()
+// Импорт хранилища для шапки
+import { useAppStore } from '@/stores/app'
+const appStore = useAppStore()
 
 // Переключение темы
+const theme = useTheme()
+
 const toggleTheme = () => {
   const newTheme = theme.global.current.value.dark ? 'light' : 'dark'
   theme.global.name.value = newTheme

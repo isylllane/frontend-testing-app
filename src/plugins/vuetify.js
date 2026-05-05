@@ -5,7 +5,7 @@ import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
 import '../assets/styles/fonts.scss' // Локальные шрифты
-
+import {ru} from 'vuetify/locale' // Подключение русского языка
 // Шрифты
 const interFontFamily = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
 
@@ -68,4 +68,11 @@ export default createVuetify({
     display: {
         fontFamily: interFontFamily,
     },
+    // Подключить русский язык
+    locale: {
+        current: 'ru',
+        locale: 'ru',
+        messages: { ru },
+        fallback: 'ru'
+    }
 })

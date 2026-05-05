@@ -1,36 +1,46 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Layouts
-import AuthLayout from '@/layouts/AuthLayout.vue'
 import MainLayout from "@/layouts/MainLayout.vue";
 
 const routes = [
     // Страница входа
     {
-        path: '/auth',
-        component: AuthLayout,
-        children: [
-            {
-                path: 'login',
-                name: 'Login',
-                component: () => import('@/views/auth/Login.vue'),
-            },
-        ],
+        path: '/auth/login',
+        name: 'Login',
+        component: () => import('@/views/auth/LoginPage.vue'),
     },
-    // Основные страницы (с меню и шапкой)
+    // Основные страницы
     {
         path: '/',
         component: MainLayout,
         children: [
+            // Главная — редирект по роли
             {
                 path: '',
-                redirect: '/available-tests',
+                name: 'Home',
+                redirect: (to) => {
+                    // FIXME: Получать роль из userStore!
+                    return '/available-tests'
+                    // Когда будет реальная авторизация:
+                    // const userStore = useUserStore()
+                    // if (userStore.userRole === 'teacher') return '/results'
+                    // return '/available-tests'
+                },
             },
+
+            // Страницы студента
             {
                 path: 'available-tests',
                 name: 'AvailableTests',
                 component: () => import('@/views/student/AvailableTests.vue'),
                 meta: { title: 'Доступные тесты' },
+            },
+            {
+                path: 'test/:id',
+                name: 'TestDetail',
+                component: () => import('@/views/student/TestDetail.vue'),
+                meta: { title: 'Описание теста' },
             },
             {
                 path: 'completed-tests',
@@ -43,6 +53,14 @@ const routes = [
                 name: 'Disciplines',
                 component: () => import('@/views/student/Disciplines.vue'),
                 meta: { title: 'Дисциплины' },
+            },
+
+            // Страницы преподавателя
+            {
+                path: 'results',
+                name: 'Results',
+                component: () => import('@/views/teacher/Results.vue'),
+                meta: { title: 'Результаты' },
             },
             {
                 path: 'funds',
@@ -57,12 +75,6 @@ const routes = [
                 meta: { title: 'Назначить тест' },
             },
             {
-                path: 'results',
-                name: 'Results',
-                component: () => import('@/views/teacher/Results.vue'),
-                meta: { title: 'Результаты' },
-            },
-            {
                 path: 'created-tests',
                 name: 'CreatedTests',
                 component: () => import('@/views/teacher/CreatedTests.vue'),
@@ -70,11 +82,26 @@ const routes = [
             },
         ],
     },
+    // 404
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/',
+    },
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 })
+
+// FIXME: Защита маршрутов (Navigation Guard) — добавить когда будет авторизация
+// router.beforeEach((to, from, next) => {
+//   const userStore = useUserStore()
+//   if (to.path !== '/auth/login' && !userStore.isAuthenticated) {
+//     next('/auth/login')
+//   } else {
+//     next()
+//   }
+// })
 
 export default router

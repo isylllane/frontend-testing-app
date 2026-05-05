@@ -3,13 +3,13 @@
     <!-- Таблица тестов -->
     <v-data-table
         :headers="headers"
-        :items="tests"
-        :loading="loading"
+        :items="studentStore.availableTests"
+        :loading="studentStore.isLoading"
         item-value="id"
         color="primary"
         hover
         @click:row="openTest"
-        class="elevation-0 rounded-lg"
+        class="rounded-lg bg-transparent"
     >
       <!-- Название -->
       <template #item.title="{ item }">
@@ -46,14 +46,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import {formatDate, isExpired} from "@/utils/formatters.js";
 
 const router = useRouter()
 
-// Состояние
-const tests = ref([])
-const loading = ref(false)
+// Импорт хранилища для шапки
+import { useAppStore } from '@/stores/app'
+const appStore = useAppStore()
+
+// Импорт хранилища для данных о тестах
+import { useStudentStore } from '@/stores/student'
+const studentStore = useStudentStore()
 
 // Заголовки таблицы
 const headers = [
@@ -65,84 +70,16 @@ const headers = [
   { title: 'Срок выполнения', key: 'deadline', sortable: true, align: 'center' },
 ]
 
-// Форматирование даты
-const formatDate = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('ru-RU')
-}
-
-// Проверка, просрочен ли тест
-const isExpired = (deadline) => {
-  return new Date(deadline) < new Date()
-}
-
 // Открыть тест
 const openTest = (event, row) => {
   const test = row.item
   router.push(`/test/${test.id}`)
 }
 
-// FIXME: Подключить API — получение доступных тестов
-const fetchTests = async () => {
-  loading.value = true
-  try {
-    // const response = await axios.get('/api/student/available-tests')
-    // tests.value = response.data
-
-    // Временные мок-данные
-    await new Promise(resolve => setTimeout(resolve, 500))
-    tests.value = [
-      {
-        id: 1,
-        title: 'Тест1 для самопроверки',
-        score: 0,
-        maxScore: 20,
-        passingScore: 15,
-        usedAttempts: 0,
-        maxAttempts: 2,
-        questionCount: 20,
-        deadline: '2026-03-20',
-        type: 'self-check',
-      },
-      {
-        id: 2,
-        title: 'Тест2 контрольный',
-        score: 20,
-        maxScore: 20,
-        passingScore: 15,
-        usedAttempts: 1,
-        maxAttempts: 2,
-        questionCount: 20,
-        deadline: '2026-03-20',
-        type: 'control',
-      },
-      {
-        id: 3,
-        title: 'Тест3',
-        score: 0,
-        maxScore: 20,
-        passingScore: 15,
-        usedAttempts: 0,
-        maxAttempts: 2,
-        questionCount: 20,
-        deadline: '2026-03-20',
-        type: 'regular',
-      },
-    ]
-  } catch (error) {
-    console.error('Ошибка загрузки тестов:', error)
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(() => {
-  fetchTests()
+onMounted(async () => {
+  appStore.setPageTitle('Доступные тесты')
+  appStore.setHeaderAction(null) // без кнопки
+  await studentStore.fetchAvailableTests()
 })
-</script>
 
-<style scoped>
-.cursor-pointer {
-  cursor: pointer;
-}
-</style>
+</script>
