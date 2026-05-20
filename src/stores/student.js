@@ -79,7 +79,7 @@ export const useStudentStore = defineStore('student', () => {
                 maxAttempts: 2,
                 deadline: '2026-03-20',
                 questionCount: 20,
-                durationMinutes: 90,
+                durationMinutes: 20,
                 passingScore: 15,
                 maxScore: 20,
                 description:

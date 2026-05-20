@@ -43,6 +43,18 @@ const routes = [
                 meta: { title: 'Описание теста' },
             },
             {
+                path: 'test/:id/run',
+                name: 'TestRun',
+                component: () => import('@/views/student/TestRun.vue'),
+                meta: { title: 'Прохождение теста' },
+            },
+            {
+                path: 'test/:id/result',
+                name: 'TestResult',
+                component: () => import('@/views/student/TestResult.vue'),
+                meta: { title: 'Результат теста' },
+            },
+            {
                 path: 'completed-tests',
                 name: 'CompletedTests',
                 component: () => import('@/views/student/CompletedTests.vue'),

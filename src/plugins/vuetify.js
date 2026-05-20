@@ -28,7 +28,7 @@ export default createVuetify({
                     primary: '#2196F3',
                     secondary: '#64B6F7',
                     accent: '#2162ff',
-                    error: '#FF5252', //todo Согласовать цвет #FF0000
+                    error: '#FF5252', //todo Согласовать цвет #
                     success: '#4CAF50', //todo Согласовать цвет #0FC015
                     background: '#FFFFFF',          // фон контента
                     surface: '#F7F8FD',

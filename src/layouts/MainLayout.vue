@@ -3,17 +3,40 @@
     <!-- Боковое меню -->
     <AppSidebar>
       <template #content>
-        <NavigationMenu />
+        <NavigationMenu v-if="appStore.sidebarMode === null" />
+
+        <!-- Сетка вопросов (во время теста) -->
+        <QuestionGrid
+            v-else-if="appStore.sidebarMode === 'questions'"
+            :question-statuses="appStore.sidebarData?.questionStatuses || []"
+            :time-left="appStore.sidebarData?.timeLeft || 0"
+            @select="appStore.sidebarData?.onQuestionSelect"
+        />
       </template>
       <template #footer>
-        <v-btn
-            variant="text"
-            block
-            :prepend-icon="theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-            @click="toggleTheme"
-        >
-          {{ theme.global.current.value.dark ? 'Светлая тема' : 'Тёмная тема' }}
-        </v-btn>
+        <!-- Обычный футер: кнопка темы -->
+        <template v-if="appStore.sidebarMode === null">
+          <v-btn
+              variant="text"
+              block
+              :prepend-icon="theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+              @click="toggleTheme"
+          >
+            {{ theme.global.current.value.dark ? 'Светлая тема' : 'Тёмная тема' }}
+          </v-btn>
+        </template>
+
+        <!-- Футер во время теста: таймер -->
+        <template v-else-if="appStore.sidebarMode === 'questions'">
+          <div class="text-center">
+            <div class="text-caption text-medium-emphasis mb-1">
+              Осталось:
+            </div>
+            <div class="text-h6 font-weight-bold text-primary">
+              {{ appStore.sidebarData?.formattedTime || '0 минут' }}
+            </div>
+          </div>
+        </template>
       </template>
     </AppSidebar>
 
@@ -58,6 +81,7 @@
 // Импорт компонентов
 import NavigationMenu from '@/components/layout/NavigationMenu.vue'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
+import QuestionGrid from '@/components/test/QuestionGrid.vue'
 // Импорт функций
 import { useTheme } from 'vuetify'
 
