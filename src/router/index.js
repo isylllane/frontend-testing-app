@@ -19,14 +19,7 @@ const routes = [
             {
                 path: '',
                 name: 'Home',
-                redirect: (to) => {
-                    // FIXME: Получать роль из userStore!
-                    return '/available-tests'
-                    // Когда будет реальная авторизация:
-                    // const userStore = useUserStore()
-                    // if (userStore.userRole === 'teacher') return '/results'
-                    // return '/available-tests'
-                },
+                redirect: '/available-tests',
             },
 
             // Страницы студента

@@ -10,7 +10,7 @@ export const studentService = {
      * @returns {Promise} — массив тестов { id, title, score, maxScore, ... }
      */
     getAvailableTests() {
-        return http.get('/student/tests/available')
+        return http.get('/student/available-tests')
     },
 
     /**
@@ -38,7 +38,7 @@ export const studentService = {
      * @returns {Promise} — массив дисциплин
      */
     getDisciplines() {
-        return http.get('/student/disciplines')
+        return http.get('/discipline')
     },
 
     /**

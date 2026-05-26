@@ -14,7 +14,18 @@
         />
       </template>
       <template #footer>
+        <!-- Кнопка выхода -->
+        <v-btn
+            variant="text"
+            block
+            prepend-icon="mdi-logout"
+            class="mb-2"
+            @click="handleLogout"
+        >
+          Выйти
+        </v-btn>
         <!-- Обычный футер: кнопка темы -->
+
         <template v-if="appStore.sidebarMode === null">
           <v-btn
               variant="text"
@@ -82,11 +93,17 @@
 import NavigationMenu from '@/components/layout/NavigationMenu.vue'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
 import QuestionGrid from '@/components/test/QuestionGrid.vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const router = useRouter()
+const userStore = useUserStore()
 // Импорт функций
 import { useTheme } from 'vuetify'
 
 // Импорт хранилища для шапки
 import { useAppStore } from '@/stores/app'
+
 const appStore = useAppStore()
 
 // Переключение темы
@@ -96,6 +113,11 @@ const toggleTheme = () => {
   const newTheme = theme.global.current.value.dark ? 'light' : 'dark'
   theme.global.name.value = newTheme
   localStorage.setItem('app-theme', newTheme)
+}
+
+const handleLogout = () => {
+  userStore.logout()
+  router.push('/auth/login')
 }
 </script>
 

@@ -26,8 +26,8 @@
       </template>
 
       <!-- Проходной балл -->
-        <template #item.passingScore="{ item }">
-        {{ item.passingScore }}/{{ item.maxScore }}
+      <template #item.passingScore="{ item }">
+        {{ item.passingScore }}
       </template>
 
       <!-- Попытки -->

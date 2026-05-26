@@ -67,60 +67,28 @@ export const useTestSessionStore = defineStore('testSession', () => {
             timeLeft.value = testData.durationMinutes * 60 // переводим минуты в секунды
 
             // Мок-вопросы (только то, что видит студент — без правильных ответов!)
+// Мок-вопросы — соответствуют реальному тесту из бэка
             questions.value = [
                 {
                     id: 1,
-                    text: 'Что такое Vue.js?',
-                    type: 'single', // single | multiple | sequence | text | matching
+                    text: 'Что такое JavaScript?',
+                    type: 'single',
                     options: [
-                        { id: 'a', text: 'JavaScript-фреймворк' },
-                        { id: 'b', text: 'Язык программирования' },
-                        { id: 'c', text: 'База данных' },
-                        { id: 'd', text: 'Операционная система' },
+                        { id: 'a', text: 'Язык программирования' },
+                        { id: 'b', text: 'База данных' },
+                        { id: 'c', text: 'Операционная система' },
+                        { id: 'd', text: 'Текстовый редактор' },
                     ],
                 },
                 {
                     id: 2,
-                    text: 'Какой метод используется для создания реактивных данных?',
+                    text: 'Какой метод выводит сообщение в консоль?',
                     type: 'single',
                     options: [
-                        { id: 'a', text: 'ref()' },
-                        { id: 'b', text: 'create()' },
-                        { id: 'c', text: 'make()' },
-                        { id: 'd', text: 'build()' },
-                    ],
-                },
-                {
-                    id: 3,
-                    text: 'Что такое Pinia?',
-                    type: 'single',
-                    options: [
-                        { id: 'a', text: 'Библиотека для управления состоянием' },
-                        { id: 'b', text: 'Плагин для роутинга' },
-                        { id: 'c', text: 'Утилита для работы с датами' },
-                        { id: 'd', text: 'Компонент Vuetify' },
-                    ],
-                },
-                {
-                    id: 4,
-                    text: 'Какой компонент используется для бокового меню в Vuetify?',
-                    type: 'single',
-                    options: [
-                        { id: 'a', text: 'v-navigation-drawer' },
-                        { id: 'b', text: 'v-sidebar' },
-                        { id: 'c', text: 'v-menu' },
-                        { id: 'd', text: 'v-panel' },
-                    ],
-                },
-                {
-                    id: 5,
-                    text: 'Сел медведь в машину',
-                    type: 'single',
-                    options: [
-                        { id: 'a', text: 'и взлетел' },
-                        { id: 'b', text: 'и уехал' },
-                        { id: 'c', text: 'и уполз' },
-                        { id: 'd', text: 'и сгорел' },
+                        { id: 'a', text: 'console.log()' },
+                        { id: 'b', text: 'print()' },
+                        { id: 'c', text: 'echo()' },
+                        { id: 'd', text: 'write()' },
                     ],
                 },
             ]
@@ -201,13 +169,13 @@ export const useTestSessionStore = defineStore('testSession', () => {
             // Сохраняем результат
 
             lastResult.value = {
-                score: 18,
-                maxScore: 20,
+                score: 10,
+                maxScore: 10,
                 passed: true,
             }
             return {
-                score: 18,
-                maxScore: 20,
+                score: 10,
+                maxScore: 10,
                 passed: true,
             }
         } catch (error) {

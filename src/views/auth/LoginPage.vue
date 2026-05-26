@@ -2,6 +2,15 @@
   <v-app>
     <v-main class="app-layout">
       <v-container fluid class="fill-height">
+        <v-alert
+            v-if="errorMessage"
+            type="error"
+            variant="tonal"
+            class="mb-4"
+            closable
+        >
+          {{ errorMessage }}
+        </v-alert>
         <v-row class="d-flex justify-center align-center" style="height: 100vh;">
           <v-col cols="12" sm="8" md="8" lg="8" class="d-flex justify-center">
             <v-card class="elevation-12 rounded-lg pa-4" color="background" border="secondary thin" width="400">
@@ -71,25 +80,33 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import LogoHeader from "@/components/layout/LogoHeader.vue";
+import { useUserStore } from '@/stores/user'
+import LogoHeader from '@/components/layout/LogoHeader.vue'
 
 const router = useRouter()
+const userStore = useUserStore()
+
 const login = ref('')
 const password = ref('')
 const isValid = ref(false)
 const loading = ref(false)
 const showPassword = ref(false)
+const errorMessage = ref('')
 
 const handleLogin = async () => {
   if (!isValid.value || loading.value) return
 
   loading.value = true
+  errorMessage.value = ''
+
   try {
-    // FIXME Реализовать вход в приложение
-    console.log('Вход:', login.value)
-    // Имитация задержки
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    router.push('/')
+    const result = await userStore.login(login.value, password.value)
+
+    if (result.success) {
+      router.push('/')
+    } else {
+      errorMessage.value = result.message
+    }
   } finally {
     loading.value = false
   }

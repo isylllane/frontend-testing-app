@@ -58,7 +58,7 @@
         </v-row>
         <div class="mb-4">
           <span class="font-weight-medium">Дисциплина:</span>
-          {{ studentStore.currentTest.discipline }}
+          Системы и технологии проектирования информационных систем
         </div>
       </div>
 
